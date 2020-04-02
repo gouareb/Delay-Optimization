@@ -9,6 +9,11 @@ results=zeros();
     requestedRateRangeA=50;
     requestedRateRangeB=50;
     for it = 1:5
+       
+        %Run RequestedRateChangingResults function at every iteration with different increased Rate 
+        %RequestedRateChangingResults function runs  the single objective
+        %that minimises the delay and the multi objective functions
+        %that minimises both the delay and routing cost
         [OverallMinDelay,OverallMinRoutingCostAndDelay,OverallMinDelayinMOO,sumRrateReq]=RequestedRateChangingResults( numberOfRequests,requestedRateRangeA,requestedRateRangeB);
         results(jj,1)=requestedRateRangeA;
         results(jj,2)=requestedRateRangeB;
@@ -20,6 +25,9 @@ results=zeros();
          jj=jj+1;
         
     end
+    
+  %Display the results in a figure to show how the delay changes with the
+  %increased requested rate.
   x=results(:,2);
   y=results(:,3);
   y2=results(:,4);

@@ -1,11 +1,10 @@
 function [ OverallMinDelay,OverallMinRoutingCostAndDelay,OverallMinDelayinMOO,sumRrateReq] = RequestedRateChangingResults( numberOfRequests,requestedRateRangeA, requestedRateRangeB)
 %UNTITLED2 Summary of this function goes here
-%   Detailed explanation goes here
-% Description:
-% The Main
+%runs  the single objective
+%that minimises the delay and the multi objective functions
+%that minimises both the delay and routing cost
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 format long
-%To calculate the running time
 
 %Matrix G define the Graph
 %GENERATE MATRIX

@@ -1,11 +1,13 @@
 function [ OverallMinDelay,OverallMinRoutingCostAndDelay,OverallMinDelayinMOO,sumRrateReq] = montecarlosfunc( numberOfRequests )
-%UNTITLED2 Summary of this function goes here
-%   Detailed explanation goes here
 % Description:
+%In this function we initialize all the parameters
+%We run first optimization model(Minimizing delay only)==> minofx function
+%We run multi objective optimization (MOO) model (Mminimizing delay and
+%routing cost at the same time ) ==> minofRoutingCostANDdelay
 % The Main
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 format long
-%To calculate the running time
+
 
 %Matrix G define the Graph
 %GENERATE MATRIX
@@ -46,14 +48,14 @@ links=links(1);
 
 
 
-%defining the number of shortest paths in variable k, S define the start
-%edge,T define the destination edge
-S=1;
-%Should be a vector
+%defining the number of shortest paths in variable k, S define the start edge
 
-%T=randi([14 23],1,numberOfRequests)';
+S=1;
+
 p = randperm(12,numberOfRequests);
+%T define the destination edge
 T= p'+10;
+% K number of shortest paths: 2
 k=2;
 
 for i=1:numberOfRequests
@@ -61,7 +63,7 @@ for i=1:numberOfRequests
     [shortestPaths(i,:), totalCosts(i,:)] = kShortestPath(G, S, T(i), k);
     [m(i,:),sizSP(i,:)]=size(shortestPaths(i,:));
 end
-%[m,sizSP]=size(shortestPaths);
+
 
 %Create a matrix of binary defining if a link belong to a path first
 %lines for shortest path of first request
@@ -112,7 +114,7 @@ end
 
 %Create node capacity
 Cnodes=zeros(numNodes : 1);
-%Create a different capacity for each node randomely
+%Create different capacities for each node randomely
 for i= 1:numNodes
     if(sum(Wkp(:,i))~=0)
         %Cnodes(i)=randi([2 4],1,1);
@@ -185,15 +187,13 @@ for i=0:0.01:1
     end
 end
 [OverallMinRoutingCostAndDelay,index ] = min(MOO(:,2));
-%[OverallMinDelay,index2] = min(MOO(:,1));
 OverallMinDelayinMOO=MOO(index,1);
-
+%Weight for objective function 1: delay
 weigh1=MOO(index,3);
-
+%Weight for objective function 2: Routing cost
 weigh2=MOO(index,4);
 
 sumRrateReq=sum(RrateReq);
-%running time
 
 
 

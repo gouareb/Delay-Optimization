@@ -1,5 +1,5 @@
 tic
-
+%Initialize Variables 
 jj=1;
 jjj=1;
 results=zeros();
@@ -8,13 +8,19 @@ ti=zeros();
 SumReqRatePerFixedNumReq=zeros();
 p = randperm(5,5);
 T= sort(p)+5;
-
-for ii = 1 : 2
+%Monte Carlo simulation with 4 iterations for 6, 7 and 8 requests
+%Number of requests can be changed in ii
+for ii = 1 : 3
+    %For ii=1 number of requests is first variable in T: 6
     numberOfRequests=T(ii);
     var=0;
-    for it = 1:2
+%Number of iteration can be changed in "it"
+    for it = 1:4
+        %Montecarlosfunc is responsible of running the single objective
+        %function that minimises the delay and the multi objective function
+        %that minimises both the delay and routing cost 
         [OverallMinDelay,OverallMinRoutingCostAndDelay,OverallMinDelayinMOO,sumRrateReq]=montecarlosfunc(numberOfRequests);
-        %if OverallMinDelay && OverallMinDelayinMOO
+       if OverallMinDelay && OverallMinDelayinMOO
         ttime1(jj)=OverallMinDelay;
         ti(jj)=numberOfRequests;
         results(jj,1)=OverallMinDelay;
@@ -28,7 +34,7 @@ for ii = 1 : 2
         results(jj,2)=numberOfRequests+0.5;
         results(jj,3)=sumRrateReq;
         jj=jj+1;
-        %end
+        end
         var=var+sumRrateReq;
         
         
@@ -60,7 +66,7 @@ for i=1:length(T)*2
     
 end
 
-
+%Display the results in box plot to show the distribution of data
 boxplot(ttime1,ti)
 title('Delay optimization compared with both delay and routing cost optimization (changing number of requests)')
 xlabel('Number of requests') % x-axis label
